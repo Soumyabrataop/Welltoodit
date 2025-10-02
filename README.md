@@ -12,7 +12,7 @@ The To-Do List App is your personal assistant for managing daily chores, work pr
 
 🟢 Add Tasks: Quickly add new tasks to your list.
 
-📝 Mark as Complete: One click to mark tasks as done ✅. Completed tasks are visually distinguished from pending ones.
+📝 Mark as Completed: One click to mark tasks as done ✅. Completed tasks are visually distinguished from pending ones.
 
 🗑️ Delete Tasks: Remove tasks you no longer need with a single click.
 
