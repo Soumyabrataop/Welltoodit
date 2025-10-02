@@ -173,6 +173,7 @@
       if (savedTheme === 'dark') document.body.classList.add('dark-mode');
       updateCounter();
       updateDateTime();
+      updateThemeButton();
     });
 
     notepad.addEventListener('input', () => {
@@ -202,7 +203,7 @@
       document.body.classList.toggle('dark-mode');
       const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
       localStorage.setItem('theme', theme);
-      themeToggle.textContent = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+      updateThemeButton();
     });
 
     function updateCounter() {
@@ -221,6 +222,11 @@
       const now = new Date();
       datetime.textContent = now.toLocaleString();
       setTimeout(updateDateTime, 60000);
+    }
+    
+    function updateThemeButton() {
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      themeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
     }
   </script>
 </body>
