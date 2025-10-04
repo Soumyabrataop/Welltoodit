@@ -1,6 +1,8 @@
+<div align="center">
+
 # ✅ To-Do List App 🚀✨
 
-“Organize your tasks, simplify your life.” 🗂️💡
+"Organize your tasks, simplify your life." 🗂️💡
 
 Tired of juggling a million tasks in your head? 🧠💭  
 Say goodbye to sticky notes 📝 and hello to effortless organization! 🎯📅
@@ -18,7 +20,7 @@ With a clean, beautiful, and intuitive interface 🎨, you'll finally be in cont
 
 🗑️ **Delete Tasks** ❌: Remove tasks you no longer need with a single click 🖱️.  
 
-💾 **Persistent Storage** 💻: Your list is saved in your browser's local storage, so it’s always there when you return 🔄.  
+💾 **Persistent Storage** 💻: Your list is saved in your browser's local storage, so it's always there when you return 🔄.  
 
 🎨 **Minimalist UI** 🖌️: Sleek, user-friendly, and easy to navigate 🧭.  
 
@@ -32,7 +34,7 @@ With a clean, beautiful, and intuitive interface 🎨, you'll finally be in cont
 
 3️⃣ **Complete a Task** ✅: Click on the task text ✍️ to toggle its completion status 🔄.  
 
-4️⃣ **Delete a Task** 🗑️: Hit the **Delete** button ❌ to remove tasks you don’t need.  
+4️⃣ **Delete a Task** 🗑️: Hit the **Delete** button ❌ to remove tasks you don't need.  
 
 ---
 
@@ -44,7 +46,7 @@ With a clean, beautiful, and intuitive interface 🎨, you'll finally be in cont
 
 ---
 
-## 🎯 Why You’ll Love It ❤️
+## 🎯 Why You'll Love It ❤️
 
 ✔️ Super easy to use 🖱️  
 ✔️ Saves your tasks automatically 💾  
@@ -69,3 +71,5 @@ Feel free to fork 🍴, modify ✨, and submit a pull request 🔃.
 ## ⭐ Show Your Support ⭐
 
 If you like this project, **star ⭐ the repo** and share it with your friends! 🚀💖  
+
+</div>
