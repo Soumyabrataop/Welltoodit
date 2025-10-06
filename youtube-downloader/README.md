@@ -18,7 +18,7 @@ A beautiful web application to download YouTube videos in different formats and 
 2. **Install Python dependencies:**
 
    ```bash
-   cd Yt_dowloader
+   cd youtube-downloader
    python3 -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    pip install -r requirements.txt
@@ -27,7 +27,7 @@ A beautiful web application to download YouTube videos in different formats and 
 3. **Run the application:**
 
    ```bash
-   python app.py
+   uvicorn app:app --reload --host 0.0.0.0 --port 5000
    ```
 
 4. **Open your browser:**
@@ -51,9 +51,9 @@ A beautiful web application to download YouTube videos in different formats and 
 - **pip** (Python package manager)
 
 ### Python Dependencies (auto-installed):
-- Flask >= 2.0
+- fastapi
+- uvicorn
 - yt-dlp >= 2023.12.1
-- Flask-Cors
 - pytest (for testing)
 
 ### Optional (for better compatibility):
@@ -65,8 +65,8 @@ A beautiful web application to download YouTube videos in different formats and 
 ## Project Structure
 
 ```
-Yt_dowloader/
-├── app.py              # Flask backend server
+youtube-downloader/
+├── app.py              # FastAPI backend server
 ├── downloader.py       # yt-dlp wrapper (format listing & downloading)
 ├── requirements.txt    # Python dependencies
 ├── README.md          # This file
@@ -87,7 +87,7 @@ Yt_dowloader/
    - Returns curated quality options (best for each resolution)
 
 2. **Download:** When you click a download button:
-   - Flask creates a temporary directory
+   - The FastAPI backend creates a temporary directory
    - yt-dlp downloads the video in the selected format
    - The file is streamed back to your browser
    - Temporary files are cleaned up automatically
@@ -131,24 +131,24 @@ The app runs in debug mode by default (auto-reloads on code changes)
 
 ## Production Deployment
 
-For production use, replace the development server:
+For production use, it's recommended to run the app with a production-grade ASGI server like Uvicorn with Gunicorn workers:
 
 ```bash
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+pip install "uvicorn[standard]" gunicorn
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:5000 app:app
 ```
 
 **Important for production:**
-- Add rate limiting (Flask-Limiter)
-- Add authentication
-- Use HTTPS
-- Implement proper file cleanup
-- Add download queue system
-- Set up logging
+- Add rate limiting (e.g., with `slowapi`)
+- Add authentication (e.g., with FastAPI's dependency injection)
+- Use HTTPS (behind a reverse proxy like Nginx or Caddy)
+- Implement a robust file cleanup strategy (e.g., a cron job)
+- Add a background task queue (e.g., Celery) for downloads
+- Set up structured logging
 
 ## Tech Stack
 
-- **Backend:** Flask + yt-dlp
+- **Backend:** FastAPI + yt-dlp
 - **Frontend:** Vanilla JavaScript, HTML5, CSS3
 - **Design:** Dark gradient theme with glassmorphism effects
 - **Icons:** Emoji-based (no external dependencies)
@@ -167,4 +167,4 @@ MIT
 ## Credits
 
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) - YouTube downloader
-- [Flask](https://flask.palletsprojects.com/) - Web framework
+- [FastAPI](https://fastapi.tiangolo.com/) - Web framework
