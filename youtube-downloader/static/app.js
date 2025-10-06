@@ -13,7 +13,7 @@ probeBtn.addEventListener('click', async () => {
   if (!url) return alert('Please enter a YouTube URL')
   
   probeBtn.disabled = true
-  probeBtn.textContent = 'Downloading...'
+  probeBtn.textContent = 'Fetching...'
   
   try {
     const res = await fetch('/api/formats?url=' + encodeURIComponent(url))
@@ -26,7 +26,7 @@ probeBtn.addEventListener('click', async () => {
     alert('Error: ' + e.message)
   } finally {
     probeBtn.disabled = false
-    probeBtn.textContent = 'Download'
+    probeBtn.textContent = 'Probe Formats'
   }
 })
 
