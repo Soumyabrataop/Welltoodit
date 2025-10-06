@@ -1,49 +1,42 @@
-from flask import Flask, request, jsonify, render_template, send_file, abort
+from fastapi import FastAPI, Request, Query, HTTPException
+from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from downloader import list_formats, download_video, sanitize_filename
 import tempfile
 import os
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/api/formats')
-def api_formats():
-    url = request.args.get('url')
-    if not url:
-        return jsonify({'error': 'Missing url parameter'}), 400
+@app.get("/api/formats")
+async def api_formats(url: str = Query(...)):
     try:
         info = list_formats(url)
-        return jsonify(info)
+        return JSONResponse(content=info)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-
-@app.route('/api/download')
-def api_download():
-    url = request.args.get('url')
-    format_id = request.args.get('format_id')
-    extract_audio = request.args.get('audio', 'false').lower() == 'true'
-    if not url or not format_id:
-        return jsonify({'error': 'Missing parameters'}), 400
-
-    tmpdir = tempfile.mkdtemp(prefix='yt_dl_')
+@app.get("/api/download")
+async def api_download(
+    url: str = Query(...),
+    format_id: str = Query(...),
+    audio: str = Query("false")
+):
+    extract_audio = audio.lower() == "true"
+    tmpdir = tempfile.mkdtemp(prefix="yt_dl_")
     try:
         out_path, filename = download_video(url, format_id, tmpdir, extract_audio=extract_audio)
         if not os.path.exists(out_path):
-            return jsonify({'error': 'Download failed'}), 500
-        # Stream the file as attachment
-        return send_file(out_path, as_attachment=True, download_name=filename)
+            raise HTTPException(status_code=500, detail="Download failed")
+        return FileResponse(out_path, filename=filename, media_type="application/octet-stream")
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        # cleanup will be handled by the OS or left for manual cleanup for large files
-        pass
+        raise HTTPException(status_code=500, detail=str(e))
+    # Note: OS cleanup for temp files is still manual or by system
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+# To run: uvicorn app:app --reload --host 0.0.0.0 --port 5000
